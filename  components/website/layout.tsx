@@ -1,7 +1,8 @@
-import Header from "./header"
-import NavBar from "./nav"
-import Footer from "./footer"
 import { Container } from "@material-ui/core"
+import Footer from "./Footer"
+import Header from "./Header"
+import NavBar from "./Nav"
+
 interface Props {
   title?: string
 }
@@ -10,7 +11,7 @@ const Layout: React.FunctionComponent<Props> = ({ children, title }) => (
   <div>
     <Header title={title} />
     <NavBar />
-    <Container maxWidth="sm">{children}</Container>
+    <Container>{children}</Container>
     <Footer />
   </div>
 )

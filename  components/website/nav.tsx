@@ -11,6 +11,7 @@ import {
 } from "@material-ui/core"
 import MenuIcon from "@material-ui/icons/Menu"
 import React, { useState } from "react"
+import SearchBar from "../searchbar/SearchBar"
 
 interface ITabPanelProps {
   index: number
@@ -69,10 +70,7 @@ const NavBar: React.FunctionComponent<{}> = () => {
             <MenuIcon />
           </IconButton>
 
-          <Tabs value={value} onChange={handleChange}>
-            <Tab label="Item One" />
-            <Tab label="Item Two" />
-          </Tabs>
+          <SearchBar />
 
           <div className={classes.grow} />
 
