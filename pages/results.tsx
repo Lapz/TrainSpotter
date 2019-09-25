@@ -1,7 +1,6 @@
-import { Card } from "@material-ui/core"
 import { NextPage } from "next"
-import ResultCard from "../ components/results/ResultCard"
-import Layout from "../ components/website/Layout"
+import ResultCard from "../components/results/ResultCard"
+import Layout from "../components/website/Layout"
 
 import { getStationData } from "../helpers/ResultCard"
 import { IHubStation, ITrainStation, TravelMode } from "../interfaces/Departure"

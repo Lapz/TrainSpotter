@@ -1,6 +1,6 @@
 import { NextPage } from "next"
-import StatusTable from "../ components/linestatus/StatusTable"
-import Layout from "../ components/website/Layout"
+import StatusTable from "../components/linestatus/StatusTable"
+import Layout from "../components/website/Layout"
 
 const Home: NextPage<{}> = () => (
   <Layout>
