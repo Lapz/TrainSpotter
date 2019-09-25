@@ -10,6 +10,7 @@ import {
   Typography
 } from "@material-ui/core"
 import MenuIcon from "@material-ui/icons/Menu"
+import Link from "next/link"
 import React, { useState } from "react"
 import SearchBar from "../searchbar/SearchBar"
 
@@ -33,30 +34,8 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-const TabPanel: React.FunctionComponent<ITabPanelProps> = ({
-  children,
-  value,
-  index,
-  ...other
-}) => (
-  <Typography
-    component="div"
-    role="tabpanel"
-    hidden={value !== index}
-    id={`tabpanel-${index}`}
-    {...other}
-  >
-    <Box p={3}>{children}</Box>
-  </Typography>
-)
-
 const NavBar: React.FunctionComponent<{}> = () => {
   const classes = useStyles()
-
-  const [value, setValue] = useState<number>(0)
-
-  const handleChange = (event: React.ChangeEvent<{}>, newValue: number) =>
-    setValue(newValue)
 
   return (
     <div className={classes.root}>
@@ -66,9 +45,15 @@ const NavBar: React.FunctionComponent<{}> = () => {
             edge="start"
             color="inherit"
             className={classes.menuButton}
+            aria-label="menu"
           >
             <MenuIcon />
           </IconButton>
+          <Link href="/">
+            <Typography variant="h4" className={classes.title}>
+              TrainSpotter
+            </Typography>
+          </Link>
 
           <SearchBar />
 

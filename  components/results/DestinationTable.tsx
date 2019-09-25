@@ -5,10 +5,10 @@ import {
   TableCell,
   TableBody
 } from "@material-ui/core"
-import { IDeparture } from "../../interfaces/Departure"
+import { IDeparture, IArrival } from "../../interfaces/Departure"
 
 interface IProps {
-  departures: IDeparture[]
+  departures: IArrival[]
 }
 const DestinationTable: React.FC<IProps> = ({ departures }) => {
   return (
@@ -22,16 +22,22 @@ const DestinationTable: React.FC<IProps> = ({ departures }) => {
         </TableRow>
       </TableHead>
       <TableBody>
-        {departures.map((departure) => {
-          return (
-            <TableRow>
-              <TableCell>{departure.line}</TableCell>
-              <TableCell>{departure.platform}</TableCell>
-              <TableCell>{departure.destination}</TableCell>
-              <TableCell>{departure.eta}</TableCell>
-            </TableRow>
-          )
-        })}
+        {departures
+          .sort((departure) => {
+            return Math.round(departure.timeToStation / 60)
+          })
+          .map((departure, index) => {
+            return (
+              <TableRow key={`${departure.id}-${departure.naptanId}-${index}`}>
+                <TableCell>{departure.lineName}</TableCell>
+                <TableCell>{departure.platformName}</TableCell>
+                <TableCell>{departure.destinationName}</TableCell>
+                <TableCell>
+                  {Math.round(departure.timeToStation / 60)} mins
+                </TableCell>
+              </TableRow>
+            )
+          })}
       </TableBody>
     </Table>
   )

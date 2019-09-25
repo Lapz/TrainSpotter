@@ -22,7 +22,9 @@
   "scripts": {
     "dev": "next",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "lint": "yarn lint-diff --fix",
+    "lint-diff": "tslint --project tsconfig.json --format codeFrame './**/*.ts'"
   },
   "devDependencies": {
     "@types/material-ui": "^0.21.6",

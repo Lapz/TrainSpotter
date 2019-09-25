@@ -1,12 +1,21 @@
-import { Avatar, Grid, makeStyles, Paper, Typography } from "@material-ui/core"
-import { getRailLogo } from "../../helpers/ResultCard"
-import { IDeparture } from "../../interfaces/Departure"
+import {
+  CircularProgress,
+  Avatar,
+  Grid,
+  makeStyles,
+  Paper,
+  Typography
+} from "@material-ui/core"
+import { getRailLogo, getDepartureData } from "../../helpers/ResultCard"
+import { IDeparture, TravelMode, IArrival } from "../../interfaces/Departure"
 import DestinationTable from "./DestinationTable"
+import { useState } from "react"
+import useAsyncEffect from "use-async-effect"
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    marginTop: theme.spacing(2),
-    marginBottom: theme.spacing(2),
+    marginTop: theme.spacing(3),
+    marginBottom: theme.spacing(3),
     padding: theme.spacing(2)
   },
   logo: {
@@ -19,43 +28,65 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 interface IProps {
-  inboundTrains: IDeparture[]
-  outboundTrains: IDeparture[]
+  // inboundTrains: IDeparture[]
+  // outboundTrains: IDeparture[]
+  stationName: string
+  services: TravelMode[]
+  stationId: string
 }
 
 const ResultCard: React.FunctionComponent<IProps> = ({
-  inboundTrains,
-  outboundTrains
+  stationName,
+  stationId,
+  services
 }) => {
   const classes = useStyles()
+
+  const [inboundTrains, setInboundTrains] = useState<IArrival[]>()
+  const [outboundTrains, setOutboundTrains] = useState<IArrival[]>()
+
+  const [loadingInbound, setLoadingInbound] = useState<boolean>(true)
+  const [loadingOutbound, setLoadingOutbound] = useState<boolean>(true)
+
+  useAsyncEffect(async () => {
+    const [outbound, inbound] = await getDepartureData(stationId)
+    setInboundTrains(inbound)
+    setLoadingInbound(false)
+    setOutboundTrains(outbound)
+    setLoadingOutbound(false)
+  }, [])
+
   return (
     <Paper className={classes.root}>
-      <Grid container spacing={2}>
-        <Grid xs={6} item container justify="center" alignItems="center">
-          <Typography component="h1">Ealing Broadway</Typography>
-        </Grid>
-        <Grid item xs={6} md container>
+      <Grid container justify="center" alignItems="center">
+        <Typography component="h1">{stationName}</Typography>
+
+        {services.map((service, index) => (
           <Avatar
+            key={`${service}-${index}`}
             className={classes.logo}
             alt="img"
-            src={getRailLogo("tflrail")}
+            src={getRailLogo(service)}
           />
-          <Avatar
-            className={classes.logo}
-            alt="img"
-            src={getRailLogo("national-rail")}
-          />
-        </Grid>
+        ))}
       </Grid>
 
       <Typography className={classes.text} component="h2">
         Inbound departures
       </Typography>
-      <DestinationTable departures={inboundTrains} />
+      {loadingInbound ? (
+        <CircularProgress />
+      ) : (
+        <DestinationTable departures={inboundTrains ? inboundTrains : []} />
+      )}
       <Typography className={classes.text} component="h2">
         Outbound departures
       </Typography>
-      <DestinationTable departures={outboundTrains} />
+      {loadingOutbound ? (
+        <CircularProgress />
+      ) : (
+        <DestinationTable departures={outboundTrains ? outboundTrains : []} />
+      )}
     </Paper>
   )
 }

@@ -1,8 +1,8 @@
 import {
   Dialog,
-  DialogTitle,
   DialogContent,
-  DialogContentText
+  DialogContentText,
+  DialogTitle
 } from "@material-ui/core"
 
 export interface IInfoDialogProps {

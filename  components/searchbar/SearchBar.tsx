@@ -1,15 +1,15 @@
 import {
-  IconButton,
-  Paper,
   createStyles,
-  InputBase,
+  IconButton,
+  Input,
   makeStyles,
+  Paper,
   Theme
 } from "@material-ui/core"
 import SearchIcon from "@material-ui/icons/Search"
-import { useState, ChangeEvent } from "react"
-import { createStationQueryUrl } from "../../helpers/SearchBar"
-import Router, { useRouter } from "next/router"
+import { useRouter } from "next/router"
+import { ChangeEvent, useState, KeyboardEvent } from "react"
+
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -28,8 +28,9 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 )
 
-const SearchBar: React.FunctionComponent<{}> = ({ children }) => {
+const SearchBar: React.FunctionComponent<{}> = () => {
   const classes = useStyles()
+  const router = useRouter()
 
   const [query, setQuery] = useState<string>()
 
@@ -37,19 +38,28 @@ const SearchBar: React.FunctionComponent<{}> = ({ children }) => {
     setQuery(e.target.value)
   }
 
+  const handleEnter = async (e: KeyboardEvent<HTMLInputElement>) => {
+    switch (e.key) {
+      case "Enter":
+        await handleSubmit()
+      default:
+        break
+    }
+  }
+
   const handleSubmit = async () => {
-    const router = useRouter()
-    await router.push(`/search?query=${query}`)
+    await router.push(`/results?station=${query}`)
   }
 
   return (
     <Paper className={classes.root}>
-      <InputBase
+      <Input
         className={classes.input}
         placeholder={"Search For Station Times"}
         inputProps={{ "aria-label": "search for station times" }}
         onChange={handleChange}
         onSubmit={handleSubmit}
+        onKeyDown={handleEnter}
       />
       <IconButton
         className={classes.iconButton}
