@@ -1,6 +1,6 @@
 import { Menu, MenuItem } from "@material-ui/core"
-import { MouseEvent, useState } from "react"
 import Link from "next/link"
+import { MouseEvent, useState } from "react"
 
 interface IProps {
   anchorEl: null | HTMLElement
