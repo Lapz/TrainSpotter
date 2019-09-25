@@ -3,11 +3,11 @@ import Footer from "./Footer"
 import Header from "./Header"
 import NavBar from "./Nav"
 
-interface Props {
+interface IProps {
   title?: string
 }
 
-const Layout: React.FunctionComponent<Props> = ({ children, title }) => (
+const Layout: React.FunctionComponent<IProps> = ({ children, title }) => (
   <div>
     <Header title={title} />
     <NavBar />

@@ -11,13 +11,9 @@ import {
 } from "@material-ui/core"
 import MenuIcon from "@material-ui/icons/Menu"
 import Link from "next/link"
-import React, { useState } from "react"
+import React, { MouseEvent, useState } from "react"
 import SearchBar from "../searchbar/SearchBar"
-
-interface ITabPanelProps {
-  index: number
-  value: any
-}
+import NavMenu from "./NavMenu"
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -37,6 +33,15 @@ const useStyles = makeStyles((theme) => ({
 const NavBar: React.FunctionComponent<{}> = () => {
   const classes = useStyles()
 
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
+  const handleNavClick = (event: MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget)
+  }
+
+  const handleNavClose = () => {
+    setAnchorEl(null)
+  }
+
   return (
     <div className={classes.root}>
       <AppBar position="static">
@@ -46,9 +51,11 @@ const NavBar: React.FunctionComponent<{}> = () => {
             color="inherit"
             className={classes.menuButton}
             aria-label="menu"
+            onClick={handleNavClick}
           >
             <MenuIcon />
           </IconButton>
+          <NavMenu anchorEl={anchorEl} handleClose={handleNavClose} />
           <Link href="/">
             <Typography variant="h4" className={classes.title}>
               TrainSpotter
