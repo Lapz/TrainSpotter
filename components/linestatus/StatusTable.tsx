@@ -19,6 +19,7 @@ import StatusTableRow from "./StatusTableRow"
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
+    flexGrow: 1,
     alignItems: "center",
     justifyContent: "center"
   },

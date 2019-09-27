@@ -11,7 +11,7 @@ const Layout: React.FunctionComponent<IProps> = ({ children, title }) => (
   <div>
     <Header title={title} />
     <NavBar />
-    <Container>{children}</Container>
+    <Container maxWidth="sm">{children}</Container>
     <Footer />
   </div>
 )

@@ -17,6 +17,8 @@ const Results: NextPage<IProps> = ({ stations }) => (
         stationName={(station as any).name || (station as any).commonName}
         services={station.modes}
         stationId={station.id}
+        lat={station.lat}
+        long={station.lon}
       />
     ))}
   </Layout>

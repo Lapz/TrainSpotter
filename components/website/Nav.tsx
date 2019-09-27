@@ -4,7 +4,8 @@ import {
   IconButton,
   makeStyles,
   Toolbar,
-  Typography
+  Typography,
+  Hidden
 } from "@material-ui/core"
 import MenuIcon from "@material-ui/icons/Menu"
 import Link from "next/link"
@@ -53,11 +54,14 @@ const NavBar: React.FunctionComponent<{}> = () => {
             <MenuIcon />
           </IconButton>
           <NavMenu anchorEl={anchorEl} handleClose={handleNavClose} />
-          <Link href="/">
-            <Typography variant="h4" className={classes.title}>
-              TrainSpotter
-            </Typography>
-          </Link>
+
+          <Hidden xsDown>
+            <Link href="/">
+              <Typography variant="h4" className={classes.title}>
+                TrainSpotter
+              </Typography>
+            </Link>
+          </Hidden>
 
           <SearchBar />
 
