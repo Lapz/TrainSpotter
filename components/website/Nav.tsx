@@ -65,8 +65,6 @@ const NavBar: React.FunctionComponent<{}> = () => {
 
           <SearchBar />
 
-          <div className={classes.grow} />
-
           <Button color="inherit">Login</Button>
         </Toolbar>
       </AppBar>

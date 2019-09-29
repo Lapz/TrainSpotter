@@ -2,7 +2,8 @@ import {
   Dialog,
   DialogContent,
   DialogContentText,
-  DialogTitle
+  DialogTitle,
+  makeStyles
 } from "@material-ui/core"
 
 export interface IInfoDialogProps {

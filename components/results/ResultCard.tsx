@@ -5,8 +5,12 @@ import {
   makeStyles,
   Paper,
   Typography,
-  IconButton
+  IconButton,
+  Collapse
 } from "@material-ui/core"
+import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown"
+import ArrowDropUpIcon from "@material-ui/icons/ArrowDropUp"
+
 import Link from "next/link"
 import { getRailLogo, getDepartureData } from "../../helpers/ResultCard"
 import { IDeparture, TravelMode, IArrival } from "../../interfaces/Departure"
@@ -15,6 +19,8 @@ import { useState } from "react"
 import useAsyncEffect from "use-async-effect"
 import MapIcon from "@material-ui/icons/Map"
 import ExploreIcon from "@material-ui/icons/Explore"
+import InfoDialog from "../website/InfoDialog"
+import MiniMap from "./MiniMap"
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -55,9 +61,26 @@ const ResultCard: React.FunctionComponent<IProps> = ({
 
   const [loadingInbound, setLoadingInbound] = useState<boolean>(true)
   const [loadingOutbound, setLoadingOutbound] = useState<boolean>(true)
+  const [mapOpen, setMapOpen] = useState<boolean>(false)
+  const [collapseInbound, setCollapseInbound] = useState<boolean>(false)
 
-  console.log(lat, long)
+  const [collapseOutbound, setCollapseOutbound] = useState<boolean>(false)
 
+  const handleMapOpen = () => {
+    setMapOpen(true)
+  }
+
+  const handleCollapseInbound = () => {
+    setCollapseInbound(!collapseInbound)
+  }
+
+  const handleCollapseOutbound = () => {
+    setCollapseOutbound(!collapseOutbound)
+  }
+
+  const handleMapClose = () => {
+    setMapOpen(false)
+  }
   useAsyncEffect(async () => {
     const [outbound, inbound] = await getDepartureData(stationId)
     setInboundTrains(inbound)
@@ -87,26 +110,51 @@ const ResultCard: React.FunctionComponent<IProps> = ({
           <ExploreIcon />
         </IconButton>
 
-        <IconButton>
+        <IconButton onClick={handleMapOpen}>
           <MapIcon />
+        </IconButton>
+        <InfoDialog title="Map" open={mapOpen} onClose={handleMapClose}>
+          <MiniMap
+            width="auto"
+            height={400}
+            mode="place"
+            query={stationName}
+            lat={lat}
+            long={long}
+          />
+        </InfoDialog>
+      </Grid>
+
+      <Grid container>
+        <Typography className={classes.text} component="h2">
+          Inbound departures
+        </Typography>
+        <IconButton onClick={handleCollapseInbound}>
+          {collapseInbound ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
         </IconButton>
       </Grid>
 
-      <Typography className={classes.text} component="h2">
-        Inbound departures
-      </Typography>
       {loadingInbound ? (
         <CircularProgress />
       ) : (
-        <DestinationTable departures={inboundTrains ? inboundTrains : []} />
+        <Collapse in={collapseInbound}>
+          <DestinationTable departures={inboundTrains ? inboundTrains : []} />
+        </Collapse>
       )}
-      <Typography className={classes.text} component="h2">
-        Outbound departures
-      </Typography>
+      <Grid container>
+        <Typography className={classes.text} component="h2">
+          Outbound departures
+        </Typography>
+        <IconButton onClick={handleCollapseOutbound}>
+          {collapseOutbound ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
+        </IconButton>
+      </Grid>
       {loadingOutbound ? (
         <CircularProgress />
       ) : (
-        <DestinationTable departures={outboundTrains ? outboundTrains : []} />
+        <Collapse in={collapseOutbound}>
+          <DestinationTable departures={outboundTrains ? outboundTrains : []} />
+        </Collapse>
       )}
     </Paper>
   )
