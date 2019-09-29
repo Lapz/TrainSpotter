@@ -86,16 +86,18 @@ export const getDepartureData = async (stationId: string) => {
 
   const res = await axios.get(url)
 
-  return filterTrains(res.data as IArrival[])
+  return filterTrains(stationId, res.data as IArrival[])
 }
 
-export const filterTrains = (trains: IArrival[]) => {
+export const filterTrains = (stationId: string, trains: IArrival[]) => {
   const outBoundStations = trains.filter((train) => {
     return train.direction === "outbound"
   })
 
   const inBoundStations = trains.filter((train) => {
-    return train.direction === "inbound"
+    return (
+      train.direction === "inbound" || train.destinationNaptanId === stationId
+    )
   })
 
   return [outBoundStations, inBoundStations]

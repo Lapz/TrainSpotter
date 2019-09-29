@@ -47,6 +47,7 @@ export interface IArrival {
   lineName: string
   destinationName: string
   direction: "inbound" | "outbound"
-  towards: "string"
+  towards: string
   timeToStation: number
+  destinationNaptanId: string
 }

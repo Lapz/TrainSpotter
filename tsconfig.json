@@ -12,6 +12,8 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
+    "pretty": true,
+    "sourceMap": true,
     "jsx": "preserve"
   },
   "exclude": ["node_modules"],

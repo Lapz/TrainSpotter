@@ -3,14 +3,33 @@ import {
   TableHead,
   TableRow,
   TableCell,
-  TableBody
+  TableBody,
+  makeStyles
 } from "@material-ui/core"
 import { IDeparture, IArrival } from "../../interfaces/Departure"
 
 interface IProps {
   departures: IArrival[]
 }
+
+const useStyles = makeStyles({
+  root: {
+    width: "100%",
+    display: "flex",
+    overflowX: "auto"
+  }
+})
 const DestinationTable: React.FC<IProps> = ({ departures }) => {
+  const classes = useStyles()
+
+  let sorted = departures.sort((departure) => {
+    return Math.round(departure.timeToStation / 60)
+  })
+
+  sorted = sorted.sort((a, b) => {
+    return a.lineName > b.lineName ? 1 : -1
+  })
+
   return (
     <Table>
       <TableHead>
@@ -22,22 +41,18 @@ const DestinationTable: React.FC<IProps> = ({ departures }) => {
         </TableRow>
       </TableHead>
       <TableBody>
-        {departures
-          .sort((departure) => {
-            return Math.round(departure.timeToStation / 60)
-          })
-          .map((departure, index) => {
-            return (
-              <TableRow key={`${departure.id}-${departure.naptanId}-${index}`}>
-                <TableCell>{departure.lineName}</TableCell>
-                <TableCell>{departure.platformName}</TableCell>
-                <TableCell>{departure.destinationName}</TableCell>
-                <TableCell>
-                  {Math.round(departure.timeToStation / 60)} mins
-                </TableCell>
-              </TableRow>
-            )
-          })}
+        {sorted.map((departure, index) => {
+          return (
+            <TableRow key={`${departure.id}-${departure.naptanId}-${index}`}>
+              <TableCell>{departure.lineName}</TableCell>
+              <TableCell>{departure.platformName}</TableCell>
+              <TableCell>{departure.destinationName}</TableCell>
+              <TableCell>
+                {Math.round(departure.timeToStation / 60)} mins
+              </TableCell>
+            </TableRow>
+          )
+        })}
       </TableBody>
     </Table>
   )

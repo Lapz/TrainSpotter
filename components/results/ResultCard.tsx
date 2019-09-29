@@ -81,8 +81,12 @@ const ResultCard: React.FunctionComponent<IProps> = ({
   const handleMapClose = () => {
     setMapOpen(false)
   }
+
+  console.log(stationId)
   useAsyncEffect(async () => {
     const [outbound, inbound] = await getDepartureData(stationId)
+
+    console.log(outbound, inbound)
     setInboundTrains(inbound)
     setLoadingInbound(false)
     setOutboundTrains(outbound)

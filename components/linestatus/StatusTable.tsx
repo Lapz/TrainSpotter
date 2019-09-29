@@ -21,10 +21,8 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexGrow: 1,
     alignItems: "center",
-    justifyContent: "center"
-  },
-  table: {
-    minWidth: 650
+    justifyContent: "center",
+    overflowX: "auto"
   },
   card: {
     marginTop: theme.spacing(2),
@@ -53,7 +51,7 @@ const StatusTable = () => {
         <CircularProgress />
       ) : (
         <Card className={classes.card}>
-          <Table className={classes.table}>
+          <Table>
             <TableHead>
               <TableRow>
                 <TableCell>Line</TableCell>
