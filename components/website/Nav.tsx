@@ -12,6 +12,8 @@ import Link from "next/link"
 import React, { MouseEvent, useState } from "react"
 import SearchBar from "../searchbar/SearchBar"
 import NavMenu from "./NavMenu"
+import firebase from "firebase/app"
+import "firebase/auth"
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -40,6 +42,16 @@ const NavBar: React.FunctionComponent<{}> = () => {
     setAnchorEl(null)
   }
 
+  const handleLogin = async () => {
+    try {
+      await firebase
+        .auth()
+        .signInWithPopup(new firebase.auth.GoogleAuthProvider())
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
   return (
     <div className={classes.root}>
       <AppBar position="static">
@@ -65,7 +77,9 @@ const NavBar: React.FunctionComponent<{}> = () => {
 
           <SearchBar />
 
-          <Button color="inherit">Login</Button>
+          <Button onClick={handleLogin} color="inherit">
+            Login
+          </Button>
         </Toolbar>
       </AppBar>
     </div>

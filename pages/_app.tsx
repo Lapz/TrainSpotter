@@ -4,11 +4,15 @@ import Head from "next/head"
 import { ThemeProvider } from "@material-ui/styles"
 import CssBaseline from "@material-ui/core/CssBaseline"
 import theme from "../theme/theme"
+import firebase from "firebase/app"
+import { FIREBASE_CONFIG } from "../config/google"
 
 export default class MyApp extends App {
   componentDidMount() {
+    firebase.initializeApp(FIREBASE_CONFIG)
     // Remove the server-side injected CSS.
     const jssStyles = document.querySelector("#jss-server-side")
+
     if (jssStyles) {
       jssStyles.parentNode!.removeChild(jssStyles)
     }
