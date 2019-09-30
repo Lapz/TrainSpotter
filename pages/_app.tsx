@@ -9,7 +9,7 @@ import Head from "next/head"
 import { Router } from "next/router"
 import React from "react"
 import { FIREBASE_CONFIG } from "../config/google"
-import { initializeStore, IStore } from "../stores"
+import { initializeStore, IStore, storeContext, StoreProvider } from "../stores"
 import theme from "../theme/theme"
 interface IOwnProps {
   isServer: boolean
@@ -17,6 +17,7 @@ interface IOwnProps {
 }
 
 export default class MyApp extends App<IOwnProps> {
+  public static contextType = storeContext
   public static async getInitialProps({
     Component,
     ctx
@@ -71,9 +72,9 @@ export default class MyApp extends App<IOwnProps> {
         <ThemeProvider theme={theme}>
           {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
           <CssBaseline />
-          <Provider store={this.store}>
+          <StoreProvider>
             <Component {...pageProps} />
-          </Provider>
+          </StoreProvider>
         </ThemeProvider>
       </React.Fragment>
     )

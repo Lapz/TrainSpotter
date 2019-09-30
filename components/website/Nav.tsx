@@ -1,19 +1,22 @@
 import {
   AppBar,
   Button,
+  Hidden,
   IconButton,
   makeStyles,
   Toolbar,
-  Typography,
-  Hidden
+  Typography
 } from "@material-ui/core"
 import MenuIcon from "@material-ui/icons/Menu"
-import Link from "next/link"
-import React, { MouseEvent, useState } from "react"
-import SearchBar from "../searchbar/SearchBar"
-import NavMenu from "./NavMenu"
 import firebase from "firebase/app"
 import "firebase/auth"
+import { observer } from "mobx-react-lite"
+import Link from "next/link"
+import React, { MouseEvent, useState } from "react"
+import useAsyncEffect from "use-async-effect"
+import { useStore } from "../../stores"
+import SearchBar from "../searchbar/SearchBar"
+import NavMenu from "./NavMenu"
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -30,8 +33,9 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-const NavBar: React.FunctionComponent<{}> = () => {
+const NavBar: React.FunctionComponent<{}> = observer(() => {
   const classes = useStyles()
+  const store = useStore()
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const handleNavClick = (event: MouseEvent<HTMLButtonElement>) => {
@@ -43,14 +47,26 @@ const NavBar: React.FunctionComponent<{}> = () => {
   }
 
   const handleLogin = async () => {
-    try {
-      await firebase
-        .auth()
-        .signInWithPopup(new firebase.auth.GoogleAuthProvider())
-    } catch (e) {
-      console.log(e)
-    }
+    await firebase
+      .auth()
+      .signInWithPopup(new firebase.auth.GoogleAuthProvider())
   }
+
+  const handleLogout = async () => {
+    await firebase.auth().signOut()
+  }
+
+  useAsyncEffect(() => {
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        store.setUser({
+          displayName: user.displayName
+        })
+      } else {
+        store.logOut()
+      }
+    })
+  })
 
   return (
     <div className={classes.root}>
@@ -77,13 +93,19 @@ const NavBar: React.FunctionComponent<{}> = () => {
 
           <SearchBar />
 
-          <Button onClick={handleLogin} color="inherit">
-            Login
-          </Button>
+          {store.user ? (
+            <Button onClick={handleLogout} color="inherit">
+              Logout
+            </Button>
+          ) : (
+            <Button onClick={handleLogin} color="inherit">
+              Login
+            </Button>
+          )}
         </Toolbar>
       </AppBar>
     </div>
   )
-}
+})
 
 export default NavBar
