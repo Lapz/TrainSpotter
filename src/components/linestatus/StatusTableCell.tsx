@@ -1,7 +1,7 @@
 import { makeStyles, TableCell } from "@material-ui/core"
+import InfoIcon from "@material-ui/icons/Info"
 import { useState } from "react"
 import InfoDialog from "../website/InfoDialog"
-import InfoIcon from "@material-ui/icons/Info"
 const useStyles = makeStyles((theme) => ({
   root: {
     color: "white"

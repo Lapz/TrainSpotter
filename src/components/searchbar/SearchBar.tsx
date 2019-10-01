@@ -8,7 +8,7 @@ import {
 } from "@material-ui/core"
 import SearchIcon from "@material-ui/icons/Search"
 import { useRouter } from "next/router"
-import { ChangeEvent, useState, KeyboardEvent } from "react"
+import { ChangeEvent, KeyboardEvent, useState } from "react"
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

@@ -1,26 +1,28 @@
 import {
-  CircularProgress,
   Avatar,
+  CircularProgress,
+  Collapse,
   Grid,
+  IconButton,
   makeStyles,
   Paper,
-  Typography,
-  IconButton,
-  Collapse
+  Typography
 } from "@material-ui/core"
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown"
 import ArrowDropUpIcon from "@material-ui/icons/ArrowDropUp"
+import StarBorderIcon from "@material-ui/icons/StarBorder"
 
+import ExploreIcon from "@material-ui/icons/Explore"
+import MapIcon from "@material-ui/icons/Map"
 import Link from "next/link"
-import { getRailLogo, getDepartureData } from "../../helpers/ResultCard"
-import { IDeparture, TravelMode, IArrival } from "../../interfaces/Departure"
-import DestinationTable from "./DestinationTable"
 import { useState } from "react"
 import useAsyncEffect from "use-async-effect"
-import MapIcon from "@material-ui/icons/Map"
-import ExploreIcon from "@material-ui/icons/Explore"
+import { getDepartureData, getRailLogo } from "../../helpers/ResultCard"
+import { useStore } from "../../stores"
 import InfoDialog from "../website/InfoDialog"
+import DestinationTable from "./DestinationTable"
 import MiniMap from "./MiniMap"
+import { IArrival, TravelMode } from "../../interfaces/Departure"
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -56,6 +58,8 @@ const ResultCard: React.FunctionComponent<IProps> = ({
 }) => {
   const classes = useStyles()
 
+  const store = useStore()
+
   const [inboundTrains, setInboundTrains] = useState<IArrival[]>()
   const [outboundTrains, setOutboundTrains] = useState<IArrival[]>()
 
@@ -82,7 +86,7 @@ const ResultCard: React.FunctionComponent<IProps> = ({
     setMapOpen(false)
   }
 
-  console.log(stationId)
+  console.log(store.user)
   useAsyncEffect(async () => {
     const [outbound, inbound] = await getDepartureData(stationId)
 
@@ -127,6 +131,8 @@ const ResultCard: React.FunctionComponent<IProps> = ({
             long={long}
           />
         </InfoDialog>
+
+        {store.user ? <StarBorderIcon /> : null}
       </Grid>
 
       <Grid container>

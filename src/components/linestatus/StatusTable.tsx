@@ -11,7 +11,7 @@ import {
 import axios from "axios"
 import React, { useState } from "react"
 import useAsyncEffect from "use-async-effect"
-import { ILineData } from "../../interfaces/Line"
+import { ILineData } from "../../../interfaces/Line"
 
 import StatusTableCell from "./StatusTableCell"
 import StatusTableRow from "./StatusTableRow"

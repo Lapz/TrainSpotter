@@ -1,12 +1,12 @@
 import {
+  makeStyles,
   Table,
-  TableHead,
-  TableRow,
-  TableCell,
   TableBody,
-  makeStyles
+  TableCell,
+  TableHead,
+  TableRow
 } from "@material-ui/core"
-import { IDeparture, IArrival } from "../../interfaces/Departure"
+import { IArrival } from "../../interfaces/Departure"
 
 interface IProps {
   departures: IArrival[]
