@@ -1,9 +1,9 @@
 import {
   Container,
   Divider,
-  Typography,
   makeStyles,
-  Theme
+  Theme,
+  Typography
 } from "@material-ui/core"
 
 const useStyles = makeStyles((theme: Theme) => ({
