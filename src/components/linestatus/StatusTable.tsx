@@ -1,7 +1,6 @@
 import {
   Card,
   CircularProgress,
-  makeStyles,
   Table,
   TableBody,
   TableCell,
@@ -11,8 +10,9 @@ import {
 import axios from "axios"
 import React, { useState } from "react"
 import useAsyncEffect from "use-async-effect"
-import { ILineData } from "../../../interfaces/Line"
 
+import { makeStyles } from "@material-ui/core/styles"
+import { ILineData } from "../../interfaces/Line"
 import StatusTableCell from "./StatusTableCell"
 import StatusTableRow from "./StatusTableRow"
 
@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
 const StatusTable = () => {
   const [hasError] = useState<boolean>(false)
   const [lineData, setLineData] = useState<ILineData[]>([])
-  const classes = useStyles()
+  const classes = useStyles({})
 
   useAsyncEffect(async () => {
     const result = await axios.get(

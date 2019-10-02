@@ -18,11 +18,11 @@ import Link from "next/link"
 import { useState } from "react"
 import useAsyncEffect from "use-async-effect"
 import { getDepartureData, getRailLogo } from "../../helpers/ResultCard"
+import { IArrival, TravelMode } from "../../interfaces/Departure"
 import { useStore } from "../../stores"
 import InfoDialog from "../website/InfoDialog"
 import DestinationTable from "./DestinationTable"
 import MiniMap from "./MiniMap"
-import { IArrival, TravelMode } from "../../interfaces/Departure"
 
 const useStyles = makeStyles((theme) => ({
   root: {

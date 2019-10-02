@@ -6,8 +6,8 @@ import {
   TableHead,
   TableRow
 } from "@material-ui/core"
-import { IArrival } from "../../interfaces/Departure"
 
+import { IArrival } from "../../interfaces/Departure"
 interface IProps {
   departures: IArrival[]
 }

@@ -1,12 +1,12 @@
 import {
   Container,
   Divider,
+  Typography,
   makeStyles,
-  Paper,
-  Typography
+  Theme
 } from "@material-ui/core"
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((theme: Theme) => ({
   root: {
     display: "flex",
     flexDirection: "column",

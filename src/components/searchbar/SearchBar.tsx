@@ -1,11 +1,5 @@
-import {
-  createStyles,
-  IconButton,
-  Input,
-  makeStyles,
-  Paper,
-  Theme
-} from "@material-ui/core"
+import { IconButton, Input, Paper, Theme } from "@material-ui/core"
+import { createStyles, makeStyles } from "@material-ui/core/styles"
 import SearchIcon from "@material-ui/icons/Search"
 import { useRouter } from "next/router"
 import { ChangeEvent, KeyboardEvent, useState } from "react"

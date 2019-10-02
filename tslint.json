@@ -11,6 +11,11 @@
       "Query",
       "MongooseThenable"
     ],
-    "no-namespace": false
+    "no-namespace": false,
+    "no-submodule-imports": [
+      false,
+      "@material-ui/core",
+      "next"
+    ]
   }
 }

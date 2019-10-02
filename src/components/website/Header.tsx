@@ -1,10 +1,10 @@
 import Head from "next/head"
 
-interface Props {
+interface IProps {
   title?: string
 }
 
-const Header: React.FunctionComponent<Props> = ({ title = "" }) => (
+const Header: React.FunctionComponent<IProps> = ({ title = "" }) => (
   <Head>
     <title>{title}</title>
     <meta charSet="utf-8" />

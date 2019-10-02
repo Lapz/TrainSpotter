@@ -1,7 +1,7 @@
-import { createStyles, makeStyles, Theme } from "@material-ui/core"
-import { TableRow } from "@material-ui/core"
+import { TableRow, Theme } from "@material-ui/core"
 import { getColorCode } from "../../helpers/LineStatus"
-import { ILineData } from "../../../interfaces/Line"
+import { ILineData } from "../../interfaces/Line"
+import { makeStyles, createStyles } from "@material-ui/core/styles"
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

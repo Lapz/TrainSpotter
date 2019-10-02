@@ -2,9 +2,10 @@ import { NextPage } from "next"
 import ResultCard from "../components/results/ResultCard"
 import Layout from "../components/website/Layout"
 
-import { Card, makeStyles, Typography } from "@material-ui/core"
+import { Card, Typography } from "@material-ui/core"
+import { makeStyles } from "@material-ui/core/styles"
 import { getStationData } from "../helpers/ResultCard"
-import { IHubStation, ITrainStation, TravelMode } from "../interfaces/Departure"
+import { IHubStation, ITrainStation } from "../interfaces/Departure"
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -22,7 +23,7 @@ const Results: NextPage<IProps> = ({ stations }) => {
   const classes = useStyles()
   return (
     <Layout>
-      {stations.length == 0 ? (
+      {stations.length === 0 ? (
         <Card className={classes.root}>
           <Typography component="h1">No Station Found</Typography>
         </Card>
