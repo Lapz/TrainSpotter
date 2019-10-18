@@ -6,6 +6,8 @@ import {
   types
 } from "mobx-state-tree"
 
+import makeInspectable from "mobx-devtools-mst"
+
 import { useLocalStore } from "mobx-react-lite"
 import { createContext, useContext } from "react"
 import { User } from "./user"
@@ -60,6 +62,7 @@ export function useStore() {
   if (!storeInstance) {
     throw new Error("useStore must be used within a StoreProvider.")
   }
+  makeInspectable(storeInstance)
 
   return storeInstance
 }

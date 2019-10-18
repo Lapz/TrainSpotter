@@ -1,5 +1,6 @@
 import { types } from "mobx-state-tree"
 
 export const User = types.model({
-  displayName: types.string
+  displayName: types.string,
+  uid: types.string
 })

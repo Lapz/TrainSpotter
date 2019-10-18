@@ -5,8 +5,7 @@ export const FIREBASE_API_KEY = config.google.firebase.FIREBASE_API_KEY
 
 export const FIREBASE_AUTH_DOMAIN = config.google.firebase.AUTH_DOMAIN
 
-export const FIREBASE_DATABASE_URL =
-  config.google.firebase.FIREBASE_DATABASE_URL
+export const FIREBASE_DATABASE_URL = config.google.firebase.DATABASE_URL
 
 export const FIREBASE_PROJECT_ID = config.google.firebase.PROJECT_ID
 

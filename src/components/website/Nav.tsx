@@ -60,7 +60,8 @@ const NavBar: React.FunctionComponent<{}> = observer(() => {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         store.setUser({
-          displayName: user.displayName
+          displayName: user.displayName,
+          uid: user.uid
         })
       } else {
         store.logOut()

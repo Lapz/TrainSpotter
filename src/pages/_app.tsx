@@ -52,7 +52,9 @@ export default class MyApp extends App<IOwnProps> {
   }
 
   public componentDidMount() {
-    firebase.initializeApp(FIREBASE_CONFIG)
+    if (!firebase.apps.length) {
+      firebase.initializeApp(FIREBASE_CONFIG)
+    }
     // Remove the server-side injected CSS.
     const jssStyles = document.querySelector("#jss-server-side")
 

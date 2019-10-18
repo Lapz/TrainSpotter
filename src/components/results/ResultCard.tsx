@@ -11,9 +11,10 @@ import {
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown"
 import ArrowDropUpIcon from "@material-ui/icons/ArrowDropUp"
 import StarBorderIcon from "@material-ui/icons/StarBorder"
-
+import StarIcon from "@material-ui/icons/Star"
 import ExploreIcon from "@material-ui/icons/Explore"
 import MapIcon from "@material-ui/icons/Map"
+import firebase from "firebase/app"
 import Link from "next/link"
 import { useState } from "react"
 import useAsyncEffect from "use-async-effect"
@@ -23,6 +24,8 @@ import { useStore } from "../../stores"
 import InfoDialog from "../website/InfoDialog"
 import DestinationTable from "./DestinationTable"
 import MiniMap from "./MiniMap"
+// tslint:disable-next-line: no-var-requires
+require("firebase/database")
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -69,6 +72,7 @@ const ResultCard: React.FunctionComponent<IProps> = ({
   const [collapseInbound, setCollapseInbound] = useState<boolean>(false)
 
   const [collapseOutbound, setCollapseOutbound] = useState<boolean>(false)
+  const [favourited, setFavourited] = useState<boolean>(false)
 
   const handleMapOpen = () => {
     setMapOpen(true)
@@ -86,16 +90,55 @@ const ResultCard: React.FunctionComponent<IProps> = ({
     setMapOpen(false)
   }
 
-  console.log(store.user)
+  const handleAddFav = async () => {
+    const db = await firebase.database()
+    const userFavouritesRefs = db.ref(
+      `users/${store.user ? store.user.uid : ""}/favouriteStations`
+    )
+
+    let entry: string = ""
+
+    await userFavouritesRefs.on("value", (snapshot) => {
+      entry = snapshot.val()[stationName]
+    })
+
+    if (entry) {
+      const map: {
+        [key: string]: null
+      } = {}
+      map[stationName] = null
+      await userFavouritesRefs.set(map)
+    } else {
+      const map: {
+        [key: string]: string
+      } = {}
+      map[stationName] = stationId
+      await userFavouritesRefs.set(map)
+    }
+  }
+
   useAsyncEffect(async () => {
     const [outbound, inbound] = await getDepartureData(stationId)
-
-    console.log(outbound, inbound)
     setInboundTrains(inbound)
     setLoadingInbound(false)
     setOutboundTrains(outbound)
     setLoadingOutbound(false)
   }, [])
+
+  useAsyncEffect(async () => {
+    const db = await firebase.database()
+    const userFavouritesRefs = db.ref(
+      `users/${store.user ? store.user.uid : ""}/favouriteStations`
+    )
+
+    const entry = (await userFavouritesRefs.once("value")).val()[stationName]
+
+    if (entry) {
+      setFavourited(true)
+    } else {
+      setFavourited(false)
+    }
+  })
 
   return (
     <Paper className={classes.root}>
@@ -132,7 +175,11 @@ const ResultCard: React.FunctionComponent<IProps> = ({
           />
         </InfoDialog>
 
-        {store.user ? <StarBorderIcon /> : null}
+        {Boolean(store.user) ? (
+          <IconButton onClick={handleAddFav}>
+            {favourited ? <StarIcon /> : <StarBorderIcon />}
+          </IconButton>
+        ) : null}
       </Grid>
 
       <Grid container>
