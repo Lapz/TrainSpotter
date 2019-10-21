@@ -8,7 +8,8 @@ import {
 
 import makeInspectable from "mobx-devtools-mst"
 
-import { useLocalStore } from "mobx-react-lite"
+import firebase from "firebase/app"
+
 import { createContext, useContext } from "react"
 import { User } from "./user"
 

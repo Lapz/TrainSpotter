@@ -24,6 +24,7 @@ import { useStore } from "../../stores"
 import InfoDialog from "../website/InfoDialog"
 import DestinationTable from "./DestinationTable"
 import MiniMap from "./MiniMap"
+import undefined from "firebase/empty-import"
 // tslint:disable-next-line: no-var-requires
 require("firebase/database")
 
@@ -124,21 +125,6 @@ const ResultCard: React.FunctionComponent<IProps> = ({
     setOutboundTrains(outbound)
     setLoadingOutbound(false)
   }, [])
-
-  useAsyncEffect(async () => {
-    const db = await firebase.database()
-    const userFavouritesRefs = db.ref(
-      `users/${store.user ? store.user.uid : ""}/favouriteStations`
-    )
-
-    const entry = (await userFavouritesRefs.once("value")).val()[stationName]
-
-    if (entry) {
-      setFavourited(true)
-    } else {
-      setFavourited(false)
-    }
-  })
 
   return (
     <Paper className={classes.root}>
